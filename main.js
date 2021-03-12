@@ -1,7 +1,39 @@
 (async () => {
+    if (window.location.hostname !== "chunithm-net-eng.com") {
+        alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
+        window.location.replace("https://chunithm-net-eng.com/");
+    }
+    
     const recordList = [];
+    
+    const getToken = async ()=> {
+        const htmlStr = await(await fetch("https://chunithm-net-eng.com/mobile/record/musicGenre/")).text();
+        const el = document.createElement("div");
+        el.innerHTML = htmlStr;
+        return el.querySelector("form").token.value;
+    }
 
-    const songList = [...document.querySelectorAll("form")];
+    const getSongListFrag = async () => {
+        const fd = new FormData();
+        fd.append("genre", 99);
+        fd.append("token", await getToken());
+        const res = await fetch("https://chunithm-net-eng.com/mobile/record/musicGenre/sendMaster", {
+            headers: {
+                "Cache-Control": "no-cache"
+            },
+            method: "POST",
+            body: fd
+        });
+        const htmlStr = await res.text();
+        const el = document.createElement("div");
+        el.innerHTML = htmlStr;
+        const frag = document.createDocumentFragment();
+        frag.appendChild(el);
+        return frag;
+    }
+
+    const songListFrag = await getSongListFrag();
+    const songList = [...songListFrag.querySelectorAll("form")];
     songList.shift();
 
     const ratingCalc = (score, songRating) => {
@@ -119,7 +151,7 @@
 
         if (i === 29) {
             table.appendChild(
-                createRow(Array(5).fill("-------------------"))
+                createRow("--30 Best Border--", "----", "----", "----", "----")
             );
         }
     }

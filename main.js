@@ -151,7 +151,7 @@
 
         if (i === 29) {
             table.appendChild(
-                createRow("--30 Best Border--", "----", "----", "----", "----")
+                createRow(["=====(Best 30 Border)====="])
             );
         }
     }

@@ -141,12 +141,12 @@
     }
 
     table.appendChild(
-        createRow(["Song Name", "Difficulty", "Constant", "Play Count", "Rating"], true)
+        createRow(["Song Name", "Difficulty", "Constant", "Score", "Rating"], true)
     );
 
     for (const [i, r] of recordList.entries()) {
         table.appendChild(
-            createRow([r.title, r.difficulty, r.songConst, r.playCount, r.rating])
+            createRow([r.title, r.difficulty, r.songConst, r.score, r.rating])
         );
 
         if (i === 29) {

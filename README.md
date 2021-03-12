@@ -4,6 +4,8 @@ A bookmarklet tools to let you view the records in rating order.
 
 Minified file genrated by [google closure compiler](https://closure-compiler.appspot.com/home).
 
+Chart constant data extracted from [chunirec](https://chunirec.net/dev/api/1.3/docs).
+
 # Usage
 
 1. Add [chuni_intl_viewer](https://github.com/kyroslee/chuni_intl_viewer) to your bookmark bar.
@@ -13,3 +15,4 @@ javascript:(function()%7Bvar%20%24jscomp%3D%24jscomp%7C%7C%7B%7D%3B%24jscomp.sco
 
 ```
 4. Open https://chunithm-net-eng.com/ and run the bookmarklet
+5. Wait for the program to finish

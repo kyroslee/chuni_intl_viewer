@@ -12,7 +12,7 @@ const getToken = async ()=> {
     return el.querySelector("form").token.value;
 }
 
-const getSongListFrag = async (difficulty = Difficulty.master) => {
+const getSongList = async (difficulty = Difficulty.master) => {
     const fd = new FormData();
     fd.append("genre", 99);
     fd.append("token", await getToken());
@@ -35,7 +35,9 @@ const getSongListFrag = async (difficulty = Difficulty.master) => {
     el.innerHTML = htmlStr;
     const frag = document.createDocumentFragment();
     frag.appendChild(el);
-    return frag;
+    const formList = [...frag.querySelectorAll("form")];
+    formList.shift();
+    return formList;
 }
 
 const ratingCalc = (score, songRating) => {
@@ -111,9 +113,7 @@ const parseSongRecordFrag = (frag) => {
 const fullRecordFetch = async() => {
     const ret = [];
 
-    const songListFrag = await getSongListFrag();
-    const songList = [...songListFrag.querySelectorAll("form")];
-    songList.shift();
+    const songList = await getSongList();
 
     const msgEl = document.createElement("div");
     msgEl.style.fontSize = "1.5rem";

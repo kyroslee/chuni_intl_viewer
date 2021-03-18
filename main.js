@@ -205,8 +205,4 @@ const fastRecordFetch = async () => {
         }
     }
     document.body.insertAdjacentElement("afterBegin", table);
-
-    // debug
-    window.recordList = recordList;
-    window.musicData = musicData;
 })();

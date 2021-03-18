@@ -5,17 +5,18 @@ const Difficulty = {
     basic: "BAS"
 }
 
-const getToken = async ()=> {
-    const htmlStr = await(await fetch("https://chunithm-net-eng.com/mobile/record/musicGenre/")).text();
-    const el = document.createElement("div");
-    el.innerHTML = htmlStr;
-    return el.querySelector("form").token.value;
-}
+const msgEl = document.createElement("div");
+msgEl.style.fontSize = "1.5rem";
+msgEl.style.padding = "1rem";
+document.body.insertAdjacentElement("afterBegin", msgEl);
+
+const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
+
 
 const getSongList = async (difficulty = Difficulty.master) => {
     const fd = new FormData();
     fd.append("genre", 99);
-    fd.append("token", await getToken());
+    fd.append("token", document.cookie.substring(3));
     const api = {
         [Difficulty.master]: "sendMaster",
         [Difficulty.expert]: "sendExpert",
@@ -84,8 +85,6 @@ const requestSongRecordFrag = async (idx, token) => {
 }
 
 const parseSongRecordFrag = (frag) => {
-    const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
-
     const ret = [];
     const title = frag.querySelector(".play_musicdata_title").innerText;
     const divMap = {
@@ -110,21 +109,41 @@ const parseSongRecordFrag = (frag) => {
     return ret;
 }
 
-const fullRecordFetch = async() => {
+const fullRecordFetch = async () => {
     const ret = [];
 
     const songList = await getSongList();
 
-    const msgEl = document.createElement("div");
-    msgEl.style.fontSize = "1.5rem";
-    msgEl.style.padding = "1rem";
-    document.body.insertAdjacentElement("afterBegin", msgEl);
     for (const [i, s] of songList.entries()) {
         msgEl.innerText = `Fetching song data: ${i + 1} / ${songList.length}`;
         ret.push(...parseSongRecordFrag(await requestSongRecordFrag(s.idx.value, s.token.value)));
     }
 
-    msgEl.innerText = "Fetch Complete";
+    msgEl.style.display = "none";
+    return ret;
+}
+
+// fetch without date and play count
+const fastRecordFetch = async () => {
+    const ret = [];
+
+    msgEl.innerText = "Fetching song data...";
+    for (const difficulty of Object.values(Difficulty)) {
+        const songList = await getSongList(difficulty);
+
+        for (const songData of songList) {
+            const title = songData.querySelector(".music_title").innerText;
+            const scoreStr = songData.querySelector(".text_b") ? songData.querySelector(".text_b").innerText : null;
+            if (title && scoreStr) {
+                ret.push({
+                    title: songData.querySelector(".music_title").innerText,
+                    score: strToNum(songData.querySelector(".text_b").innerText),
+                    difficulty
+                });
+            }
+        }
+    }
+    msgEl.style.display = "none";
     return ret;
 }
 
@@ -133,9 +152,11 @@ const fullRecordFetch = async() => {
         alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
         window.location.replace("https://chunithm-net-eng.com/");
     }
-    
-    const recordList = await fullRecordFetch();
 
+    const isFastFetch = confirm("Do you want to perform a fast fetch ?");
+    const recordList = isFastFetch ? await fastRecordFetch() : await fullRecordFetch();
+
+    // do rating calc for record list
     const musicData = await (await fetch("https://api.chunirec.net/1.3/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182")).json();
     recordList.map(r => {
         const songInfo = musicData.find(md => md.meta.title === r.title);
@@ -146,6 +167,7 @@ const fullRecordFetch = async() => {
     });
     recordList.sort((a, b) => b.rating - a.rating);
 
+    // print out record list
     const table = document.createElement("table");
     const createRow = (dataArr, isHeader = false) => {
         const row = document.createElement("tr");

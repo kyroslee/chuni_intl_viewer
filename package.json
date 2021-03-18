@@ -1,0 +1,22 @@
+{
+  "name": "chuni_intl_viewer",
+  "version": "1.0.0",
+  "description": "A bookmarklet tool to let you view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.",
+  "main": "main.js",
+  "scripts": {
+    "compile": "node compile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyroslee/chuni_intl_viewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kyroslee/chuni_intl_viewer/issues"
+  },
+  "homepage": "https://github.com/kyroslee/chuni_intl_viewer#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -181,13 +181,21 @@ const fastRecordFetch = async () => {
         return row;
     }
 
+    const headerRow = ["Song Name", "Difficulty", "Constant", "Score", "Rating"];
+    if (!isFastFetch) {
+        headerRow.push("Last Play", "Play Count");
+    }
     table.appendChild(
-        createRow(["Song Name", "Difficulty", "Constant", "Score", "Rating"], true)
+        createRow(headerRow, true)
     );
 
     for (const [i, r] of recordList.entries()) {
+        const rowData = [r.title, r.difficulty, r.songConst.toFixed(1), r.score, r.rating.toFixed(2)];
+        if (!isFastFetch) {
+            rowData.push(r.date, r.playCount);
+        }
         table.appendChild(
-            createRow([r.title, r.difficulty, r.songConst, r.score, r.rating])
+            createRow(rowData)
         );
 
         if (i === 29) {

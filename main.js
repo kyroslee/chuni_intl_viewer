@@ -1,3 +1,8 @@
+if (window.chuniIntlViewer) {
+    alert("Please refresh the page before another new fetch.");
+}
+window.chuniIntlViewer = true;
+
 const Difficulty = {
     master: "MAS",
     expert: "EXP",
@@ -12,16 +17,22 @@ document.body.insertAdjacentElement("afterBegin", msgEl);
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
 
-const getToken = () => document.cookie
-    .split(";")
-    .map(e => decodeURIComponent(e.trim()))
-    .map(e => e.split("="))
-    .find(e => e[0] === "_t")[1];
+const getCookie = (key) => {
+    const cookieEntry = document.cookie
+        .split(";")
+        .map(e => decodeURIComponent(e.trim()))
+        .map(e => e.split("="))
+        .find(e => e[0] === key);
+    if (cookieEntry) {
+        return cookieEntry[1]; // value
+    }
+    return "";
+}
 
 const getSongList = async (difficulty = Difficulty.master) => {
     const fd = new FormData();
     fd.append("genre", 99);
-    fd.append("token", getToken());
+    fd.append("token", getCookie("_t"));
     const api = {
         [Difficulty.master]: "sendMaster",
         [Difficulty.expert]: "sendExpert",
@@ -155,6 +166,11 @@ const fastRecordFetch = async () => {
 (async () => {
     if (window.location.hostname !== "chunithm-net-eng.com") {
         alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
+        window.location.replace("https://chunithm-net-eng.com/");
+    }
+
+    if (!getCookie("_t")) {
+        alert("Token not found. Please login first.");
         window.location.replace("https://chunithm-net-eng.com/");
     }
 

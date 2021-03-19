@@ -16,9 +16,13 @@ fetch("https://closure-compiler.appspot.com/compile", {
 .then(res => res.json())
 .then(({ compiledCode }) => {
     fs.writeFileSync(path.join(__dirname, "main.min.js"), compiledCode);
+    
+    console.log("Generating bookmarklet...");
     const data = bookmarklet.parseFile(compiledCode);
     const bookmarkletCode = bookmarklet.convert(data.code, data.options);
     fs.writeFileSync(path.join(__dirname, "bookmarklet.js"), bookmarkletCode);
+
+    console.log("Updating README.md ...");
     const readMe = fs.readFileSync(path.join(__dirname, "readMeTemplate.md"), "utf-8");
     fs.writeFileSync(
         path.join(__dirname, "README.md"),

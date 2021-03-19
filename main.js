@@ -12,11 +12,16 @@ document.body.insertAdjacentElement("afterBegin", msgEl);
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
 
+const getToken = () => document.cookie
+    .split(";")
+    .map(e => decodeURIComponent(e.trim()))
+    .map(e => e.split("="))
+    .find(e => e[0] === "_t")[1];
 
 const getSongList = async (difficulty = Difficulty.master) => {
     const fd = new FormData();
     fd.append("genre", 99);
-    fd.append("token", document.cookie.substring(3));
+    fd.append("token", getToken());
     const api = {
         [Difficulty.master]: "sendMaster",
         [Difficulty.expert]: "sendExpert",

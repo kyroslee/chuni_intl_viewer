@@ -1,8 +1,3 @@
-if (window.chuniIntlViewer) {
-    alert("Please refresh the page before another new fetch.");
-}
-window.chuniIntlViewer = true;
-
 const Difficulty = {
     master: "MAS",
     expert: "EXP",
@@ -11,9 +6,6 @@ const Difficulty = {
 }
 
 const msgEl = document.createElement("div");
-msgEl.style.fontSize = "1.5rem";
-msgEl.style.padding = "1rem";
-document.body.insertAdjacentElement("afterBegin", msgEl);
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
 
@@ -163,7 +155,7 @@ const fastRecordFetch = async () => {
     return ret;
 }
 
-(async () => {
+const main = async () => {
     if (window.location.hostname !== "chunithm-net-eng.com") {
         alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
         window.location.replace("https://chunithm-net-eng.com/");
@@ -226,4 +218,14 @@ const fastRecordFetch = async () => {
         }
     }
     document.body.insertAdjacentElement("afterBegin", table);
-})();
+};
+
+if (window.chuniIntlViewer) {
+    alert("Please refresh the page before another new fetch.");
+} else {
+    window.chuniIntlViewer = true;
+    msgEl.style.fontSize = "1.5rem";
+    msgEl.style.padding = "1rem";
+    document.body.insertAdjacentElement("afterBegin", msgEl);
+    main();
+}

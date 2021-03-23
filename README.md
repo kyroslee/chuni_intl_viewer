@@ -1,8 +1,8 @@
-# chuni_intl_viewer
+# Chunithm Internation Score Viewer
 
 A bookmarklet tool to let you view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.
 
-Minified file genrated by [google closure compiler](https://closure-compiler.appspot.com/home).
+Minified file genrated by [google closure compiler API](https://closure-compiler.appspot.com/).
 
 Chart constant data extracted from [chunirec](https://chunirec.net/dev/api/1.3/docs).
 

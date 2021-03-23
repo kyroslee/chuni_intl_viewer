@@ -7,7 +7,7 @@ Chart constant data extracted from [chunirec](https://chunirec.net/dev/api/1.3/d
 # Usage
 
 1. Drag [chuni intl viewer](https://github.com/kyroslee/chuni_intl_viewer) to your bookmark bar.
-2. Edit the bookmark. Copy the following code ([bookmarklet.js](https://raw.githubusercontent.com/kyroslee/chuni_intl_viewer/main/bookmarklet.js)) and paste it as the url of the bookmark
+2. Edit the bookmark. Copy the following code and paste it as the url of the bookmark
 ```
 javascript:(function(d,s){s=d.createElement('script');s.src='https://cdn.jsdelivr.net/gh/kyroslee/chuni_intl_viewer/main.min.js?'+Date.now();d.getElementsByTagName('head')[0].appendChild(s);})(document);
 

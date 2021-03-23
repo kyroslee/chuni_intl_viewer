@@ -182,13 +182,24 @@ const main = async () => {
     });
     recordList.sort((a, b) => b.rating - a.rating);
 
-    // print out record list
+    // Genearte result
+    const resultDiv = document.createElement("div");
+    resultDiv.style.padding = "0.1rem";
+
+    const generatedAtEl = document.createElement("div");
+    generatedAtEl.style.textAlign = "right";
+    generatedAtEl.style.margin = "0.1rem";
+    generatedAtEl.innerText = `Generated at: ${new Date().toLocaleString()}`;
+    resultDiv.appendChild(generatedAtEl);
+
     const table = document.createElement("table");
+    table.style.border = "0.1rem solid black";
     const createRow = (dataArr, isHeader = false) => {
         const row = document.createElement("tr");
         const tag = isHeader ? "th" : "td";
         for (const data of dataArr) {
             const item = document.createElement(tag);
+            item.style.border = "0.1rem solid black";
             item.innerText = data;
             item.style.padding = "0.5rem";
             row.appendChild(item);
@@ -196,7 +207,7 @@ const main = async () => {
         return row;
     }
 
-    const headerRow = ["Song Name", "Difficulty", "Constant", "Score", "Rating"];
+    const headerRow = ["#", "Song Name", "Difficulty", "Constant", "Score", "Rating"];
     if (!isFastFetch) {
         headerRow.push("Last Play", "Play Count");
     }
@@ -205,32 +216,29 @@ const main = async () => {
     );
 
     for (const [i, r] of recordList.entries()) {
-        const rowData = [r.title, r.difficulty, r.songConst.toFixed(1), r.score, r.rating.toFixed(2)];
+        const rowData = [i + 1, r.title, r.difficulty, r.songConst.toFixed(1), r.score, r.rating.toFixed(2)];
         if (!isFastFetch) {
             rowData.push(r.date, r.playCount);
         }
         table.appendChild(
             createRow(rowData)
         );
-
-        if (i === 29) {
-            table.appendChild(
-                createRow(["=====(Best 30 Border)====="])
-            );
-        }
     }
-    document.body.insertAdjacentElement("afterBegin", table);
+    resultDiv.appendChild(table);
+    document.body.insertAdjacentElement("afterBegin", resultDiv);
 
     // generate button for download result as png
     const downloadBtn = document.createElement("button");
     downloadBtn.innerText = "Donwload as PNG";
+    downloadBtn.style.margin = "0.5rem";
     downloadBtn.onclick = async () => {
         const link = document.createElement("a");
         link.download = "result.png";
-        link.href = (await html2canvas(table)).toDataURL()
+        link.href = (await html2canvas(resultDiv)).toDataURL()
         link.click();
     }
     document.body.insertAdjacentElement("afterBegin", downloadBtn);
+
 };
 
 if (window.chuniIntlViewer) {

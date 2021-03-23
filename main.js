@@ -220,6 +220,17 @@ const main = async () => {
         }
     }
     document.body.insertAdjacentElement("afterBegin", table);
+
+    // generate button for download result as png
+    const downloadBtn = document.createElement("button");
+    downloadBtn.innerText = "Donwload as PNG";
+    downloadBtn.onclick = async () => {
+        const link = document.createElement("a");
+        link.download = "result.png";
+        link.href = (await html2canvas(table)).toDataURL()
+        link.click();
+    }
+    document.body.insertAdjacentElement("afterBegin", downloadBtn);
 };
 
 if (window.chuniIntlViewer) {

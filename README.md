@@ -1,4 +1,4 @@
-# Chunithm Internation Score Viewer
+# Chunithm (International) Score Viewer
 
 A bookmarklet tool to let you view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.
 

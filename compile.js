@@ -1,23 +1,21 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
 const path = require("path");
-const bookmarklet = require("bookmarklet");
+const { rollup } = require("rollup");
+const nodeResolve = require("@rollup/plugin-node-resolve").default;
+const { terser } = require("rollup-plugin-terser");
 
 console.log("Compiling...");
-fetch("https://closure-compiler.appspot.com/compile", {
-    method: "POST",
-    body: new URLSearchParams({
-        js_code: fs.readFileSync(path.join(__dirname, "main.js")),
-        compilation_level: "SIMPLE_OPTIMIZATIONS",
-        output_format: "json",
-        output_info: "compiled_code"
+
+const build = async() => {
+    const bundle = await rollup({
+        input: path.join(__dirname, "main.js"),
+        plugins: [nodeResolve(), terser()]
+    });
+    await bundle.write({
+        file: path.join(__dirname, "main.min.js"),
+        format: "iife",
     })
-})
-.then(res => res.json())
-.then(({ compiledCode }) => {
-    fs.writeFileSync(path.join(__dirname, "main.min.js"), compiledCode);
+}
+
+build().then(() => {
     console.log("Finished");
-})
-.catch((e) => {
-    console.error(e);
 });

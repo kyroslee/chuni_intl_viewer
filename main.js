@@ -1,3 +1,5 @@
+import html2canvas from "html2canvas";
+
 const Difficulty = {
     master: "MAS",
     expert: "EXP",

@@ -183,14 +183,24 @@ const main = async () => {
     recordList.sort((a, b) => b.rating - a.rating);
 
     // Genearte result
+    const createTextDiv = (content = "") => {
+        const div = document.createElement("div");
+        div.style.textAlign = "left";
+        div.style.margin = "0.1rem";
+        div.innerText = content;
+        return div;
+    }
+
     const resultDiv = document.createElement("div");
     resultDiv.style.padding = "0.1rem";
 
-    const generatedAtEl = document.createElement("div");
-    generatedAtEl.style.textAlign = "right";
-    generatedAtEl.style.margin = "0.1rem";
-    generatedAtEl.innerText = `Generated at: ${new Date().toLocaleString()}`;
-    resultDiv.appendChild(generatedAtEl);
+    const best30Sum = recordList.slice(0, 30)
+        .map((r) => r.rating)
+        .reduce((acc, val) => acc + val);
+
+    resultDiv.appendChild(createTextDiv(`Generated at: ${new Date().toLocaleDateString()}`));
+    resultDiv.appendChild(createTextDiv(`Best 30 Average: ${(best30Sum / 30).toFixed(2)}`));
+    resultDiv.appendChild(createTextDiv(`Maximum Achievable Rating: ${((best30Sum + recordList[0].rating * 10) / 40).toFixed(2)}`));
 
     const table = document.createElement("table");
     table.style.border = "0.1rem solid black";

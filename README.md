@@ -18,7 +18,7 @@ javascript:(function(d,s){s=d.createElement('script');s.src='https://cdn.jsdeliv
 # Dev
 
 1. `npm install`
-2. `npm run compile`
+2. `npm run build`
 
 # Tips
 - If you want to run the bookmarklet on mobile chrome, type the name of the bookmark at url bar, and then click on the bookmark to execute the code.

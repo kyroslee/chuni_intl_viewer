@@ -164,11 +164,11 @@ const main = async () => {
     }
 
     if (!getCookie("_t")) {
-        alert("Token not found. Please login first.");
+        alert("[chuni-intl-viewer] Token not found. Please login first.");
         window.location.replace("https://chunithm-net-eng.com/");
     }
 
-    const isFastFetch = confirm("Do you want to perform a fast fetch ?");
+    const isFastFetch = confirm("[chuni-intl-viewer] Do you want to perform a fast fetch ?");
     const recordList = isFastFetch ? await fastRecordFetch() : await fullRecordFetch();
 
     // do rating calc for record list
@@ -239,7 +239,7 @@ const main = async () => {
 
     // generate button for download result as png
     const downloadBtn = document.createElement("button");
-    downloadBtn.innerText = "Donwload as PNG";
+    downloadBtn.innerText = "Donwload Result as PNG";
     downloadBtn.style.margin = "0.5rem";
     downloadBtn.onclick = async () => {
         const link = document.createElement("a");
@@ -249,10 +249,21 @@ const main = async () => {
     }
     document.body.insertAdjacentElement("afterBegin", downloadBtn);
 
+    const titleDiv = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.innerText = "Chunithm (International) Score Viewer";
+    const githubContact = document.createElement("a");
+    githubContact.href = "https://github.com/kyroslee/chuni_intl_viewer";
+    githubContact.target = "_blank";
+    githubContact.rel = "noopener noreferrer";
+    githubContact.innerText = "kyroslee/chuni_intl_viewer@GitHub";
+    titleDiv.appendChild(h3);
+    titleDiv.appendChild(githubContact);
+    document.body.insertAdjacentElement("afterbegin", titleDiv);
 };
 
 if (window.chuniIntlViewer) {
-    alert("Please refresh the page before another new fetch.");
+    alert("[chuni-intl-viewer] Please refresh the page before another new fetch.");
 } else {
     window.chuniIntlViewer = true;
     msgEl.style.fontSize = "1.5rem";

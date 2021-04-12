@@ -1,6 +1,6 @@
 # Chunithm (International) Score Viewer
 
-A bookmarklet tool to let you view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.
+A bookmarklet tool let you to view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.
 
 Chart constant data extracted from [chunirec](https://chunirec.net/dev/api/1.3/docs).
 

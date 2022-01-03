@@ -23,4 +23,4 @@ javascript:(function(d,s){s=d.createElement('script');s.src='https://cdn.jsdeliv
 # Tips
 - If you want to run the bookmarklet on mobile chrome, type the name of the bookmark at url bar, and then click on the bookmark to execute the code.
 - [How can a bookmarklet be ADDED on mobile Chrome without copying and pasting? - Android Enthusiasts Stack Exchange](https://android.stackexchange.com/questions/159308/how-can-a-bookmarklet-be-added-on-mobile-chrome-without-copying-and-pasting)
-- iOS Shortcut to run script in CHUNITHM-NET: https://www.icloud.com/shortcuts/0605bc94115d4469b6b29230c755694d (open CHUNITHM-NET > tap Share button > scroll down and tzp CHUNI Intl Viewer)
+- iOS Shortcut to run script in CHUNITHM-NET: https://www.icloud.com/shortcuts/12abc71d59d047b09b51f70812272a87 (open CHUNITHM-NET > tap Share button > scroll down and tzp CHUNI Intl Viewer)

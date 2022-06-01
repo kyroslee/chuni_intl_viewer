@@ -8,6 +8,7 @@ Chart constant data extracted from [chunirec](https://developer.chunirec.net/doc
 - 2 Jun 2022: Support Chunithm New
     - Update chart constant to Chunithm New
     - Support Ulitma (Not tested yet as I have not played any Ultima song yet, would try later)
+    - Update rating calculation (add support on SSS+ rating)
 
 # Usage
 

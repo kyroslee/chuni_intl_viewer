@@ -55,8 +55,11 @@ const getSongList = async (difficulty = Difficulty.master) => {
 
 const ratingCalc = (score, songRating) => {
     let offset = 0;
-    if (score >= 1007500) {
-        offset = 2;
+    if (score >= 1009000) {
+        offset = 2.15;
+    }
+    else if (score >= 1007500) {
+        offset = 2 + (score - 1007500) * 1 / 10000;
     } else if (score >= 1005000) {
         offset = 1.5 + (score - 1005000) * 10 / 50000;
     } else if (score >= 1000000) {

@@ -2,7 +2,15 @@
 
 A bookmarklet tool let you to view the records of [CHUNITHM-NET (International)](https://chunithm-net-eng.com/) in rating order.
 
-Chart constant data extracted from [chunirec](https://chunirec.net/dev/api/1.3/docs).
+Chart constant data extracted from [chunirec](https://developer.chunirec.net/docs/v2.0/).
+
+# Change Log
+- 2 Jun 2022: Support Chunithm New
+    - Update chart constant to Chunithm New
+    - Support Ulitma (Not tested yet as I have not played any Ultima song yet, would try later)
+    - Update rating calculation (add support on SSS+ rating)
+    - Remove full record fetch (as it is useless)
+    - Add FC/AJ result
 
 # Usage
 

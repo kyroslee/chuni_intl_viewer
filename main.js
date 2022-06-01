@@ -1,6 +1,7 @@
 import html2canvas from "html2canvas";
 
 const Difficulty = {
+    ultima: 'ULT',
     master: "MAS",
     expert: "EXP",
     advance: "ADV",
@@ -28,6 +29,7 @@ const getSongList = async (difficulty = Difficulty.master) => {
     fd.append("genre", 99);
     fd.append("token", getCookie("_t"));
     const api = {
+        [Difficulty.ultima]: 'sendUltima',
         [Difficulty.master]: "sendMaster",
         [Difficulty.expert]: "sendExpert",
         [Difficulty.advance]: "sendAdvance",

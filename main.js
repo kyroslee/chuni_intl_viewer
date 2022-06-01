@@ -77,7 +77,6 @@ const ratingCalc = (score, songRating) => {
     return Math.floor((songRating + offset) * 100) / 100;
 }
 
-// fetch without date and play count
 const recordFetch = async () => {
     const ret = [];
 
@@ -88,11 +87,17 @@ const recordFetch = async () => {
         for (const songData of songList) {
             const title = songData.querySelector(".music_title").innerText;
             const scoreStr = songData.querySelector(".text_b") ? songData.querySelector(".text_b").innerText : null;
+            const badges = [...songData.querySelectorAll('img')];
+            const isAllJustice = badges.some((badge) => badge.src.includes('alljustice'));
+            const isFullCombo = isAllJustice ? true : badges.some((badge) => badge.src.includes('fullcombo'));
+
             if (title && scoreStr) {
                 ret.push({
                     title: songData.querySelector(".music_title").innerText,
                     score: strToNum(songData.querySelector(".text_b").innerText),
-                    difficulty
+                    difficulty,
+                    isAllJustice,
+                    isFullCombo
                 });
             }
         }
@@ -162,13 +167,21 @@ const main = async () => {
         return row;
     }
 
-    const headerRow = ["#", "Song Name", "Difficulty", "Constant", "Score", "Rating"];
+    const headerRow = ["#", "Song Name", "Difficulty", "Constant", "Score", "Rating", "AJ/FC"];
     table.appendChild(
         createRow(headerRow, true)
     );
 
     for (const [i, r] of recordList.entries()) {
-        const rowData = [i + 1, r.title, r.difficulty, r.songConst.toFixed(1), r.score, r.rating.toFixed(2)];
+        const rowData = [
+            i + 1, // #
+            r.title, // Song Name
+            r.difficulty, // Difficulty
+            r.songConst.toFixed(1), // Constant
+            r.score, // Score
+            r.rating.toFixed(2), // Rating
+            r.isAllJustice ? 'AJ' : (r.isFullCombo ? 'FC' : ''), // FC/AJ
+        ];
         table.appendChild(
             createRow(rowData)
         );

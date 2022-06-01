@@ -174,7 +174,7 @@ const main = async () => {
     const recordList = isFastFetch ? await fastRecordFetch() : await fullRecordFetch();
 
     // do rating calc for record list
-    const musicData = await (await fetch("https://api.chunirec.net/1.3/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182")).json();
+    const musicData = await (await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2")).json();
     recordList.map(r => {
         const songInfo = musicData.find(md => md.meta.title === r.title);
         const songConst = songInfo.data[r.difficulty].const;

@@ -11,6 +11,7 @@ const Difficulty = {
 const msgEl = document.createElement("div");
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
+const getMusicData = async () => await (await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2")).json();
 
 const getCookie = (key) => {
     const cookieEntry = document.cookie
@@ -24,7 +25,7 @@ const getCookie = (key) => {
     return "";
 }
 
-const getSongList = async (difficulty = Difficulty.master) => {
+const getSongDataList = async (difficulty = Difficulty.master) => {
     const fd = new FormData();
     fd.append("genre", 99);
     fd.append("token", getCookie("_t"));
@@ -56,8 +57,7 @@ const ratingCalc = (score, songRating) => {
     let offset = 0;
     if (score >= 1009000) {
         offset = 2.15;
-    }
-    else if (score >= 1007500) {
+    } else if (score >= 1007500) {
         offset = 2 + (score - 1007500) * 1 / 10000;
     } else if (score >= 1005000) {
         offset = 1.5 + (score - 1005000) * 10 / 50000;
@@ -76,14 +76,14 @@ const ratingCalc = (score, songRating) => {
     return Math.floor((songRating + offset) * 100) / 100;
 }
 
-const recordFetch = async () => {
+const fetchRecordList = async () => {
     const ret = [];
 
     msgEl.innerText = "Fetching song data...";
     for (const difficulty of Object.values(Difficulty)) {
-        const songList = await getSongList(difficulty);
+        const songDataList = await getSongDataList(difficulty);
 
-        for (const songData of songList) {
+        for (const songData of songDataList) {
             const title = songData.querySelector(".music_title").innerText;
             const scoreStr = songData.querySelector(".text_b") ? songData.querySelector(".text_b").innerText : null;
             const badges = [...songData.querySelectorAll('img')];
@@ -105,33 +105,19 @@ const recordFetch = async () => {
     return ret;
 }
 
-const main = async () => {
-    if (window.location.hostname !== "chunithm-net-eng.com") {
-        alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
-        window.location.href  = "https://chunithm-net-eng.com/";
-        return;
-    }
-
-    if (!getCookie("_t")) {
-        alert("[chuni-intl-viewer] Token not found. Please login first.");
-        window.location.href  = "https://chunithm-net-eng.com/";
-        return;
-    }
-
-    let recordList = await recordFetch();
-
-    // do rating calc for record list
-    const musicData = await (await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2")).json();
-    recordList = recordList.map(r => {
+const parseRecordListWithMusicData = (recordList, musicData) => {
+    const parsedList = recordList.map(r => {
         const songInfo = musicData.find(md => md.meta.title === r.title);
         const songConst = songInfo.data[r.difficulty].const;
         r.rating = ratingCalc(r.score, songConst);
         r.songConst = songConst;
         return r;
     });
-    recordList.sort((a, b) => b.rating - a.rating);
 
-    // Genearte result
+    return parsedList.sort((a, b) => b.rating - a.rating);
+}
+
+const printResult = (recordList) => {
     const createTextDiv = (content = "") => {
         const div = document.createElement("div");
         div.style.textAlign = "left";
@@ -213,6 +199,23 @@ const main = async () => {
     titleDiv.appendChild(h3);
     titleDiv.appendChild(githubContact);
     document.body.insertAdjacentElement("afterbegin", titleDiv);
+}
+
+const main = async () => {
+    if (window.location.hostname !== "chunithm-net-eng.com") {
+        alert("[chuni_intl_viewer] This tools could only be used under chunithm-net international.");
+        window.location.href  = "https://chunithm-net-eng.com/";
+        return;
+    }
+
+    if (!getCookie("_t")) {
+        alert("[chuni-intl-viewer] Token not found. Please login first.");
+        window.location.href  = "https://chunithm-net-eng.com/";
+        return;
+    }
+
+    const recordList = parseRecordListWithMusicData(await fetchRecordList(), await getMusicData());
+    printResult(recordList);
 };
 
 if (window.chuniIntlViewer) {

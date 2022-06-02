@@ -1,4 +1,5 @@
 import html2canvas from "html2canvas";
+import domtoimage from 'dom-to-image';
 
 const Difficulty = {
     ultima: 'ULT',

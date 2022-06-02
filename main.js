@@ -190,13 +190,15 @@ const main = async () => {
 
     // generate button for download result as png
     const downloadBtn = document.createElement("button");
-    downloadBtn.innerText = "Donwload Result as PNG";
+    downloadBtn.textContent = "Donwload Result as PNG";
     downloadBtn.style.margin = "0.5rem";
     downloadBtn.onclick = async () => {
+        downloadBtn.textContent = "Generating result image...."
         const link = document.createElement("a");
         link.download = "result.png";
-        link.href = (await html2canvas(resultDiv)).toDataURL()
+        link.href = (await html2canvas(resultDiv)).toDataURL();
         link.click();
+        downloadBtn.textContent = "Donwload Result as PNG";
     }
     document.body.insertAdjacentElement("afterBegin", downloadBtn);
 

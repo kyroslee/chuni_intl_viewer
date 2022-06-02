@@ -11,7 +11,21 @@ const Difficulty = {
 const msgEl = document.createElement("div");
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
-const getMusicData = async () => await (await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2")).json();
+const getMusicData = async () => {
+   const response = await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2");
+   const json = await response.json();
+   if (!response.ok) {
+       const { error } = json;
+       alert(`
+            Error occured when getting music data from chunirec.
+            Code: ${error.code}
+            Message: ${error.message}
+            Additional Message: ${error.additional_message}
+        `);
+       throw new Error(`${error.code}: ${error.message}${error.additional_message}`);
+   }
+   return json;
+};
 
 const getCookie = (key) => {
     const cookieEntry = document.cookie

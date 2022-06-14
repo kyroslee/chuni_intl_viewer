@@ -5,6 +5,9 @@ A bookmarklet tool let you to view the records of [CHUNITHM-NET (International)]
 Chart constant data extracted from [chunirec](https://developer.chunirec.net/docs/v2.0/).
 
 # Change Log
+- 14 Jun 2022: Add local chart constant
+    - Using data from: https://docs.google.com/spreadsheets/d/1m9BXU3D8rD4qYPn4YrxnzI3-2NydDwB-GTs1h88UX-U/
+    - As Chunithm New Internation Ver. is supposed to be using the chart constant of Chunithm New instead of Chunithm New Plus, the chart constant from the google spreadsheet would have priority over chart constant from chunirec.
 - 2 Jun 2022: Support Chunithm New
     - Update chart constant to Chunithm New
     - Support Ulitma (Not tested yet as I have not played any Ultima song yet, would try later)
@@ -26,7 +29,8 @@ javascript:(function(d,s){s=d.createElement('script');s.src='https://cdn.jsdeliv
 # Dev
 
 1. `npm install`
-2. `npm run build`
+2. `npm run generate-constant` (if you need to test for local constant)
+3. `npm run build`
 
 # Tips
 - If you want to run the bookmarklet on mobile chrome, type the name of the bookmark at url bar, and then click on the bookmark to execute the code.

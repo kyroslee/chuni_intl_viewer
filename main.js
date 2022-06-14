@@ -1,4 +1,5 @@
 import html2canvas from "html2canvas";
+import localConstant from "./chartConstant.json";
 
 const Difficulty = {
     ultima: 'ULT',
@@ -11,7 +12,7 @@ const Difficulty = {
 const msgEl = document.createElement("div");
 
 const strToNum = (str) => Number([...str].filter(e => e !== ",").join(""));
-const getMusicData = async () => {
+const getChunirecMusicData = async () => {
    const response = await fetch("https://api.chunirec.net/2.0/music/showall.json?token=252db1d77e53f52fd85c5b346fef7c90e345b3b3f0b12018a2074298e4b35182&region=jp2");
    const json = await response.json();
    if (!response.ok) {
@@ -119,10 +120,18 @@ const fetchRecordList = async () => {
     return ret;
 }
 
-const parseRecordListWithMusicData = (recordList, musicData) => {
+const parseRecordListWithMusicData = (recordList, chunirecMusicData, localConstant) => {
+    const getConstant = (title, difficulty) => {
+        const localConst = localConstant.find(c => c.name === title && c.difficulty === difficulty);
+        if (localConst) {
+            return parseFloat(localConst.constant);
+        }
+
+        return chunirecMusicData.find(md => md.meta.title === title).data[difficulty].const;
+    }
+
     const parsedList = recordList.map(r => {
-        const songInfo = musicData.find(md => md.meta.title === r.title);
-        const songConst = songInfo.data[r.difficulty].const;
+        const songConst = getConstant(r.title, r.difficulty);
         r.rating = ratingCalc(r.score, songConst);
         r.songConst = songConst;
         return r;
@@ -228,7 +237,11 @@ const main = async () => {
         return;
     }
 
-    const recordList = parseRecordListWithMusicData(await fetchRecordList(), await getMusicData());
+    const recordList = parseRecordListWithMusicData(
+        await fetchRecordList(),
+        await getChunirecMusicData(),
+        localConstant
+    );
     printResult(recordList);
 };
 

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/kyroslee/chuni_intl_viewer#readme",
   "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "csvtojson": "^2.0.10",
     "html2canvas": "^1.4.1",

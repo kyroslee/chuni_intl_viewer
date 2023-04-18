@@ -1,5 +1,4 @@
 import html2canvas from "html2canvas";
-import localConstant from "./chartConstant.json";
 
 const Difficulty = {
     ultima: 'ULT',
@@ -120,7 +119,7 @@ const fetchRecordList = async () => {
     return ret;
 }
 
-const parseRecordListWithMusicData = (recordList, chunirecMusicData, localConstant) => {
+const parseRecordListWithMusicData = (recordList, chunirecMusicData, localConstant = []) => {
     const getConstant = (title, difficulty) => {
         const localConst = localConstant.find(c => c.name === title && c.difficulty === difficulty);
         if (localConst) {
@@ -239,8 +238,7 @@ const main = async () => {
 
     const recordList = parseRecordListWithMusicData(
         await fetchRecordList(),
-        await getChunirecMusicData(),
-        localConstant
+        await getChunirecMusicData()
     );
     printResult(recordList);
 };
